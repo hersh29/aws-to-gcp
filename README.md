@@ -60,6 +60,7 @@ Install Google Cloud SDK and Terraform
 create `main.tf` and `vpc-set-up.tf`
 
 Export Data from AWS:
+
 `pg_dump -h university-database.cpkikimowg2f.us-east-1.rds.amazonaws.com -U postgres-admin -d university-database -f dumpfile.sql`
 
 `aws s3 sync s3://college-data-bucket ./desktop/`
