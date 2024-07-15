@@ -3,6 +3,8 @@ A scalable data pipeline to fetch, store, and process data from a public API int
 
 The project involves creating two AWS Lambda functions using **Node.js**. The first function, `fetch-data`, fetches data from a public API and stores it in an S3 bucket. The second function, `process-data`, retrieves this data from the S3 bucket and stores it in an AWS RDS PostgreSQL database `university-database`.
 
+create `fetch-data` and `process-data` files
+
 **`AWS Services Used`**
 
 **Lambda functions**
@@ -32,3 +34,41 @@ VPC Endpoints
 **IAM**
 
 Purpose: To manage permissions and roles for the AWS services to interact securely.
+
+
+**`GCP Services Used`**
+
+**Cloud Functions**
+
+**Cloud Storage**
+
+**Cloud SQL (PostgreSQL DB Instance)**
+
+**VPC networks**
+
+**`Migration steps:`**
+
+Data Backup: Backup all data in AWS services before starting the migration.
+
+IAM Roles and Permissions: Mapped IAM roles from AWS to equivalent roles in GCP manually.
+
+Service Configuration: Documented configurations for all services, including VPC settings, to replicate them in GCP.
+
+Network Setup: Ensured that the network architecture in GCP matches the one in AWS, including subnets, firewalls, and routing.
+
+Install Google Cloud SDK and Terraform
+create `main.tf` and `vpc-set-up.tf`
+
+Export Data from AWS:
+`pg_dump -h university-database.cpkikimowg2f.us-east-1.rds.amazonaws.com -U postgres-admin -d university-database -f dumpfile.sql`
+`aws s3 sync s3://college-data-bucket ./desktop/`
+
+Copy database export file to Cloud Storage
+`gsutil cp database.sql gs://university-data-bucket`
+
+Import the export file to Cloud SQL:
+`gcloud sql import sql postgres-gcp gs://university-data-bucket/database.sql --database=university-data-import`
+
+
+
+
